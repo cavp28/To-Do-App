@@ -1,0 +1,9 @@
+{
+  "editor.formatOnSave": false, // enable per language
+  "[python]": {
+    "editor.formatOnSave": true
+  },
+  "python.formatting.provider": "black",
+  "python.formatting.blackPath": "/Users/cesarvargas/.local/share/virtualenvs/backend-N5--eDKp/bin/black",
+  "python.formatting.blackArgs": ["-l 120"]
+}
