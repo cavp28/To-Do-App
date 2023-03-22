@@ -13,7 +13,7 @@ from database import (
 app = FastAPI()
 
 # Path to React Front-end
-origins = ["https://localhost:3000"]
+origins = ["https://localhost:3000", "http://localhost:3000"]
 
 # Adding middleware
 app.add_middleware(
@@ -25,10 +25,12 @@ app.add_middleware(
 )
 
 
+
 # Decorator to get the empty route
 @app.get("/")
 def read_root():
-    return {"Ping": "Pong"}
+    return {"message": "Hello World"}
+
 
 
 @app.get("/api/todo")
@@ -37,7 +39,7 @@ async def get_todo():
     return response
 
 
-@app.get("/api/todo{title}", response_model=Todo)
+@app.get("/api/todo/{title}", response_model=Todo)
 async def get_todo_by_title(title):
     response = await fetch_one_todo(title)
     if response:
@@ -45,7 +47,7 @@ async def get_todo_by_title(title):
     raise HTTPException(404, f"Not Todo item found with this title:  {title}")
 
 
-@app.post("/api/todo", reponse_mode=Todo)
+@app.post("/api/todo/", response_model=Todo)
 async def post_todo(todo: Todo):
     response = await create_todo(todo.dict())
     if response:
@@ -53,7 +55,7 @@ async def post_todo(todo: Todo):
     raise HTTPException(400, "Something went wrong (bad request)")
 
 
-@app.put("/api/todo{title}", response_model=Todo)
+@app.put("/api/todo/{title}", response_model=Todo)
 async def put_todo(title: str, description: str):
     response = await update_todo(title, description)
     if response:
@@ -61,7 +63,7 @@ async def put_todo(title: str, description: str):
     raise HTTPException(404, f"Not Todo item found with this title: {title}")
 
 
-@app.delete("/api/todo{title}")
+@app.delete("/api/todo/{title}")
 async def delete_todo(title):
     response = await remove_todo(title)
     if response:
